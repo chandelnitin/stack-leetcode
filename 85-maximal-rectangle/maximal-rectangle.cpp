@@ -1,5 +1,7 @@
 class Solution {
-public:
+    // TC+> (n+m)newmatrix + (n+m)nextsmaller + (n+m)previoussmaller +(n+m)histogram +(n)
+    //sc 2(n+m)nexsmaller + 2(n+m)previoussmaller + (n+m) newmatrix
+public:  
     vector<int> nextSmallerElemenent(vector<int>& arr) {
         stack<int> st; // maintaing decreasing stack of indexs
         int n = arr.size();
