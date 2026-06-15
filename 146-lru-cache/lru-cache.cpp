@@ -1,7 +1,7 @@
 class LRUCache {
 public:
     list<int>dl;
-    map<int,pair<int,list<int>::iterator>>mp;
+    unordered_map<int,pair<int,list<int>::iterator>>mp;
     int n;
     LRUCache(int capacity) {
         n=capacity;
@@ -28,9 +28,9 @@ public:
         }
 
         if(n==dl.size()){
-            int key = dl.front();
+            int oldkey = dl.front();
             dl.pop_front();
-            mp.erase(key);
+            mp.erase(oldkey);
         }
 
         dl.push_back(key);
