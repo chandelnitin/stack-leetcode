@@ -1,5 +1,5 @@
 class Solution {
-public:
+public:   // tree strucute notes me upload hai
    int fun(int i,int n, vector<int>& nums,vector<int>& dp){
        if(i==n) return 0;
        if(dp[i]!=-1) return dp[i];
