@@ -61,6 +61,7 @@ public:
     }
     int coinChange(vector<int>& coins, int amount) {
          vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+         sort(coins.rbegin(),coins.rend());
         if(fun(0,coins,amount,0,dp)>=1e9) return -1;
 
          return fun(0,coins,amount,0,dp);
