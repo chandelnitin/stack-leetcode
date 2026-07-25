@@ -40,32 +40,93 @@
 
 
 
+
+
+
+
+// class Solution {
+// public:
+//     int fun(int i,vector<int>&coins,int &amount,long long collectAmount,vector<vector<int>>&dp){
+//         if(amount==collectAmount)  {
+//             return 0; // collectmount amount ke equal ho gya tha to hme koi coin ki need nhi hai
+//         }
+//         if(collectAmount>amount) return 1e9; // INT_MAX isliye nhi kr skte kuki 1 1 krke phale se value
+//         if(i==coins.size()) return 1e9 ;      // add hogi or hmm INT_MAX bhi add kr denge to OVER flow
+//          // i==coins.size pr hmne 1e9 isliye return kiya hme yhha pr koi solution nhi mila iska matlab 
+//         // hmm koi solution nhi bna sakte . is case me hmm 0 return nhi kr skate kuki min(pick,notpick)
+//         // se anseer 0 ban jayega kuki min use kiya hai. or ye notpick me hi hoga kuki pcik me agr hmne answer nhi mila to hmne allready 1E9 likha hua hai
+//         if(dp[i][collectAmount]!=-1) return dp[i][collectAmount];
+//          //pickup
+//        int pick=1+ fun(i,coins,amount,collectAmount+coins[i],dp);
+//         //notpickup
+//        int notpick= fun(i+1,coins,amount,collectAmount,dp);
+        
+//         return dp[i][collectAmount]=min(pick,notpick);
+//     }
+//     int coinChange(vector<int>& coins, int amount) {
+//          vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+//          sort(coins.rbegin(),coins.rend());
+//         if(fun(0,coins,amount,0,dp)>=1e9) return -1;
+
+//          return fun(0,coins,amount,0,dp);
+
+        
+//     }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Solution {
 public:
-    int fun(int i,vector<int>&coins,int &amount,long long collectAmount,vector<vector<int>>&dp){
-        if(amount==collectAmount)  {
-            return 0; // collectmount amount ke equal ho gya tha to hme koi coin ki need nhi hai
-        }
-        if(collectAmount>amount) return 1e9; // INT_MAX isliye nhi kr skte kuki 1 1 krke phale se value
-        if(i==coins.size()) return 1e9 ;      // add hogi or hmm INT_MAX bhi add kr denge to OVER flow
-         // i==coins.size pr hmne 1e9 isliye return kiya hme yhha pr koi solution nhi mila iska matlab 
-        // hmm koi solution nhi bna sakte . is case me hmm 0 return nhi kr skate kuki min(pick,notpick)
-        // se anseer 0 ban jayega kuki min use kiya hai. or ye notpick me hi hoga kuki pcik me agr hmne answer nhi mila to hmne allready 1E9 likha hua hai
-        if(dp[i][collectAmount]!=-1) return dp[i][collectAmount];
-         //pickup
-       int pick=1+ fun(i,coins,amount,collectAmount+coins[i],dp);
-        //notpickup
-       int notpick= fun(i+1,coins,amount,collectAmount,dp);
-        
-        return dp[i][collectAmount]=min(pick,notpick);
-    }
     int coinChange(vector<int>& coins, int amount) {
-         vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
-         sort(coins.rbegin(),coins.rend());
-        if(fun(0,coins,amount,0,dp)>=1e9) return -1;
-
-         return fun(0,coins,amount,0,dp);
-
+        // memo[i] will store the min coins for amount i.
+        // Initialize with -2 to indicate "not computed yet".
+        vector<int> memo(amount + 1, -2);
+        return solve(coins, amount, memo);
+    }
+private:
+    int solve(vector<int>& coins, int rem, vector<int>& memo) {
+        if (rem < 0) return -1; // Invalid state
+        if (rem == 0) return 0;  // Base case: amount is 0
+        if (memo[rem] != -2) return memo[rem]; // Return cached result
         
+        int min_count = INT_MAX;
+         
+        for (int coin : coins) {
+            int res = solve(coins, rem - coin, memo);
+            if (res >= 0 && res < min_count) {
+                min_count = 1 + res;
+            }
+        }
+        
+        // Cache the result before returning
+        memo[rem] = (min_count == INT_MAX) ? -1 : min_count;
+        return memo[rem];
     }
 };
+
+
+
+
+
